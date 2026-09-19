@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institute Project - Contact Manager (Side-by-Side Layout)</title>
+    <style>
+        /* Global Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #3fb48d;
+            color: #333;
+            padding-bottom: 50px;
+        }
+
+        /* Header Container */
+        header {
+            width: 85%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            background-color: rgb(117, 9, 9);
+            box-shadow: 0 4px 6px rgba(189, 186, 11, 0.05);
+        }
+
+        /* Custom Div with Background and Light Gray Border */
+        .header-box {
+            background-color: #fafbfc;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        /* 80px by 80px UI/UX Styled Buttons */
+        .nav-btn {
+            width: 80px;
+            height: 80px;
+            background-color: #20139202;
+            border: 4px solid #a08409;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #24292f;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-btn:hover {
+            background-color: #0969da;
+            color: #ffffff;
+            border-color: #0969da;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(9, 105, 218, 0.2);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-3px);
+        }
+
+        .nav-btn .icon {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        /* Main Workspace Wrapper for Side-by-Side Row Layout */
+        .workspace-row {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        /* Individual Containers (Form & List) */
+        .container {
+            flex: 1;
+            background: #0b6b6e;
+            padding: 25px;
+            border-radius: 12px;
+            border: 4px solid #a08409;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            border: 4px solid #a08409;
+            color: #ebf0f7;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #ebf0f7;
+                     font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #44d4364b;
+            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+        }
+
+        .action-btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .submit-btn {
+            flex: 1;
+            padding: 11px;
+            background-color: #2ea44f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #2c974b;
+        }
+
+        .cancel-btn {
+            padding: 11px 16px;
+            background-color: #2dc5c5bd;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: none;
+        }
+
+        .cancel-btn:hover {
+            background-color: #b8a922;
+        }
+
+        /* Search & List Section */
+        .search-box {
+            margin-bottom: 18px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .member-list {
+            list-style: none;
+            max-height: 290px;
+            overflow-y: auto;
+            border: 4px solid #a08409;
+            border-radius: 6px;
+            background: #f6f8fa;
+            padding: 5px;
+        }
+
+        .member-item {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e1e4e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.15s;
+            background: #ffffff;
+            margin-bottom: 4px;
+            border-radius: 4px;
+        }
+
+        .member-item:hover {
+            background-color: #f3f4f6;
+            border-color: #0969da;
+        }
+
+        .member-item.active {
+            background-color: #ddf4ff;
+            border-color: #0969da;
+        }
+
+        .member-info h4 {
+            font-size: 14px;
+            color: #24292f;
+            margin-bottom: 2px;
+        }
+
+        .member-info p {
+            font-size: 12px;
+            color: #57606a;
+        }
+
+        .delete-icon {
+            background: none;
+            border: none;
+            color: #cf222e;
+            cursor: pointer;
+            font-size: 15px;
+            padding: 5px;
+        }
+
+        .delete-icon:hover {
+            color: #a40e26;
+        }
+
+        #action-output {
+            font-size: 13px;
+            color: #57606a;
+            margin-top: 15px;
+            padding: 10px;
+            background: #f6f8fa;
+            border-radius: 6px;
+            border: 1px dashed #d0d7de;
+            text-align: center;
+        }
+
+        /* Responsive Layout for Mobile Screens */
+        @media (max-width: 850px) {
+            .workspace-row {
+                flex-direction: column;
+            }
+        }
+        
+    </style>
+    
+    <!-- Firebase SDKs (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+<body>
+
+
+     <div>
+        <marquee
+    width="80%"
+    direction="left"
+    height="50px"
+    scrollamount="6"
+    behavior="scroll"
+    style="
+        color: #e6be0e;
+        font-size: 32px;
+        font-weight: bold;
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+    "
+>
+    Khurram Mansoor Full Stack Web Developer | React JS | Node JS | Express JS | MongoDB | Firebase | Tailwind CSS | JavaScript | HTML | CSS
+</marquee>
+    
+     </div>
+    <!-- Header Section with 80px by 80px Buttons -->
+    <header>
+        <div class="header-box">
+            <button class="nav-btn" onclick="handleHeaderClick('TEST')">
+                <span class="icon">🧪</span>
+                TEST
+            </button>
+            <button class="nav-btn" onclick="resetFormState()">
+                <span class="icon">➕ </span>
+                ADD
+            </button>
+            <button class="nav-btn" onclick="handleHeaderClick('EDIT')">
+                <span class="icon">✏️</span>
+                EDIT
+            </button>
+            <button class="nav-btn" onclick="triggerSearchFocus()">
+                <span class="icon">🔍</span> 
+                SEARCH
+            </button>
+            <button class="nav-btn" onclick="handleHeaderClick('SUBMIT')">
+                <span class="icon">🚀</span>
+                SUBMIT
+            </button>
+            <button class="nav-btn" onclick="handleHeaderClick('NEXT')">
+                <span class="icon">➡️</span>
+                NEXT
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Row Container holding Form and Member List side by side -->
+    <div class="workspace-row">
+        
+        <!-- Contact Entry & Edit Form Container -->
+        <section class="container" id="form-section">
+            <h2 id="form-title">Add New Contact Record</h2>
+            <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                <input type="hidden" id="edit-id">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter email address" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter phone number" required>
+                </div>
+                <div class="action-btn-group">
+                    <button type="submit" class="submit-btn" id="submit-btn-text">Add to Firebase</button>
+                    <button type="button" class="cancel-btn" id="cancel-btn" onclick="resetFormState()">Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Member List & Search View Container -->
+        <section class="container" id="list-section">
+            <h2>Directory & Members List</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search members..." onkeyup="filterMembers()">
+            </div>
+            <ul class="member-list" id="memberList">
+                <li style="padding: 15px; text-align: center; color: #57606a;">Loading members...</li>
+            </ul>
+            <div id="action-output">Status: Ready. Click any member to edit.</div>
+        </section>
+
+    </div>
+
+    <!-- JavaScript Application Logic & Firebase Configuration -->
+    <script>
+        // TODO: Replace with your actual Firebase project configuration details
+         const firebaseConfig = {
+    apiKey: "AIzaSyCMcp9KGsbAVA-Ag0YyeX7noPQhDmoTtQ0",
+    authDomain: "fitpro-16610.firebaseapp.com",
+    databaseURL: "https://fitpro-16610-default-rtdb.firebaseio.com",
+    projectId: "fitpro-16610",
+    storageBucket: "fitpro-16610.firebasestorage.app",
+    messagingSenderId: "270502661965",
+    appId: "1:270502661965:web:3e583a0890020c49193104"
+  };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const contactsRef = database.ref('contacts');
+
+        let allContactsData = {}; 
+        let currentActiveId = null; 
+
+        // Load and Listen for Changes from Firebase Realtime Database
+        contactsRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            allContactsData = data || {};
+            renderMemberList(allContactsData);
+        });
+
+        // Render Member List View
+        function renderMemberList(contactsObj) {
+            const listElement = document.getElementById('memberList');
+            listElement.innerHTML = '';
+
+            if (!contactsObj || Object.keys(contactsObj).length === 0) {
+                listElement.innerHTML = '<li style="padding: 15px; text-align: center; color: #57606a;">No contacts found in database.</li>';
+                return;
+            }
+
+            for (let id in contactsObj) {
+                let contact = contactsObj[id];
+                let li = document.createElement('li');
+                li.className = `member-item ${currentActiveId === id ? 'active' : ''}`;
+                li.innerHTML = `
+                    <div class="member-info" style="flex: 1;" onclick="selectMemberForEdit('${id}')">
+                        <h4>${escapeHtml(contact.username)}</h4>
+                        <p>${escapeHtml(contact.email)} | ${escapeHtml(contact.phone)}</p>
+                    </div>
+                    <button class="delete-icon" onclick="deleteContact(event, '${id}')" title="Delete record">🗑️</button>
+                `;
+                listElement.appendChild(li);
+            }
+        }
+
+        // Handle Form Submit (Handles both Adding new records and Updating existing records)
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const editId = document.getElementById('edit-id').value;
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const outputDiv = document.getElementById('action-output');
+
+            if (editId) {
+                contactsRef.child(editId).update({
+                    username: username,
+                    email: email,
+                    phone: phone,
+                    updatedAt: Date.now()
+                })
+                .then(() => {
+                    outputDiv.textContent = `Success: Contact '${username}' updated!`;
+                    outputDiv.style.color = "#1a7f37";
+                    resetFormState();
+                })
+                .catch((error) => {
+                    outputDiv.textContent = `Error: Update failed. ${error.message}`;
+                    outputDiv.style.color = "#cf222e";
+                });
+            } else {
+                const newContactRef = contactsRef.push();
+                newContactRef.set({
+                    username: username,
+                    email: email,
+                    phone: phone,
+                    createdAt: Date.now()
+                })
+                .then(() => {
+                    outputDiv.textContent = `Success: Contact '${username}' added!`;
+                    outputDiv.style.color = "#1a7f37";
+                    document.getElementById('contactForm').reset();
+                })
+                .catch((error) => {
+                    outputDiv.textContent = `Error: Failed to add data. ${error.message}`;
+                    outputDiv.style.color = "#cf222e";
+                });
+            }
+        }
+
+        // Select member to edit
+        function selectMemberForEdit(id) {
+            currentActiveId = id;
+            const contact = allContactsData[id];
+            if (!contact) return;
+
+            document.getElementById('edit-id').value = id;
+            document.getElementById('username').value = contact.username;
+            document.getElementById('email').value = contact.email;
+            document.getElementById('phone').value = contact.phone;
+
+            document.getElementById('form-title').textContent = `Edit: ${contact.username}`;
+            document.getElementById('submit-btn-text').textContent = 'Update Record';
+            document.getElementById('cancel-btn').style.display = 'block';
+
+            renderMemberList(allContactsData);
+            document.getElementById('action-output').textContent = `Status: Member '${contact.username}' selected for editing.`;
+        }
+
+        // Reset form back to 'Add' mode
+        function resetFormState() {
+            currentActiveId = null;
+            document.getElementById('contactForm').reset();
+            document.getElementById('edit-id').value = '';
+            document.getElementById('form-title').textContent = 'Add New Contact Record';
+            document.getElementById('submit-btn-text').textContent = 'Add to Firebase';
+            document.getElementById('cancel-btn').style.display = 'none';
+            renderMemberList(allContactsData);
+            document.getElementById('action-output').textContent = "Status: Form reset. Ready for new entry.";
+        }
+
+        // Delete a member record from Firebase
+        function deleteContact(event, id) {
+            event.stopPropagation();
+            if (confirm("Are you sure you want to delete this contact record?")) {
+                contactsRef.child(id).remove().then(() => {
+                    if (currentActiveId === id) {
+                        resetFormState();
+                    }
+                    document.getElementById('action-output').textContent = "Status: Record deleted.";
+                });
+            }
+        }
+
+        // Search Filter for Member List
+        function filterMembers() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredObj = {};
+
+            for (let id in allContactsData) {
+                let c = allContactsData[id];
+                if (c.username.toLowerCase().includes(query) || 
+                    c.email.toLowerCase().includes(query) || 
+                    c.phone.toLowerCase().includes(query)) {
+                    filteredObj[id] = c;
+                }
+            }
+            renderMemberList(filteredObj);
+        }
+
+        // Header Action Handlers
+        function triggerSearchFocus() {
+            document.getElementById('searchInput').focus();
+            document.getElementById('action-output').textContent = "Status: Search input focused.";
+        }
+
+        function handleHeaderClick(actionName) {
+            const outputDiv = document.getElementById('action-output');
+            switch(actionName) {
+                case 'TEST':
+                    outputDiv.textContent = "Status: Running system diagnostics test...";
+                    break;
+                case 'EDIT':
+                    outputDiv.textContent = "Status: Click any member in the list to edit their record.";
+                    break;
+                case 'SUBMIT':
+                    outputDiv.textContent = "Status: Data batch successfully SUBMITTED!";
+                    break;
+                case 'NEXT':
+                    outputDiv.textContent = "Status: Navigating to NEXT module...";
+                    break;
+            }
+        }
+
+        // Helper to prevent HTML injection
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+    </script>
+
+</body>
+</html>
